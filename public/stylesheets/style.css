@@ -1,8 +1,42 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+* {
+    padding: 0;
+    margin: 0;
 }
 
-a {
-  color: #00B7FF;
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.count {
+    font-size: 100px;
+}
+
+.count div {
+    animation: slots 1s ease-in-out forwards;
+}
+
+
+@keyframes slots {
+    0% {
+        transform: translate(0, 50px);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(0, -50px);
+        opacity: 0;
+    }
 }
