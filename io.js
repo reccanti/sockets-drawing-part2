@@ -10,7 +10,7 @@ var count = 0;
 function onIncrement(socket) {
     socket.on("incrementCount", function(data) {
         count++;
-        socket.emit("updatePara", { val: count });
+        io.sockets.in("room1").emit("updatePara", { val: count });
     });
 }
 
@@ -19,7 +19,6 @@ function onIncrement(socket) {
  * This function handles the initialization of the socket.io connection
  */
 io.sockets.on("connection", function(socket) {
-    //console.log(socket);
     socket.join("room1");
     onIncrement(socket);
     
