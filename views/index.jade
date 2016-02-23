@@ -1,4 +1,12 @@
 extends layout
 
 block content
-    div(class="count" id="count")
+    div(style="display:none;")
+        img(src="/images/ThatYeLook.png" id="imgLook")
+        img(src="/images/ThatYeStare.png" id="imgStare")
+    form(class="inputForm")
+        input(type="text" name="xPos")
+        input(type="text" name="yPos")
+        button(type="button" name="input").
+            Submit
+    canvas(id="canvas" class="canvas")
