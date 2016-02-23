@@ -1,11 +1,29 @@
 var socket;
 var countField;
+var id;
 
 window.addEventListener("load", function() {
-    DrawingCanvas.initialize(1);
-    DrawingCanvas.addToStack(imgData);
+    // DrawingCanvas.initialize(1);
+    // DrawingCanvas.addToStack(imgData);
     countField = document.getElementById("count");
     socket = io.connect(); 
+    socket.emit("requestId", {});
+    
+    var submitButton = document.getElementsByName("input")[0];
+    var xPos = document.getElementsByName("xPos")[0];
+    var yPos = document.getElementsByName("yPos")[0];
+    submitButton.addEventListener("click", function() {
+        var x = xPos.value;
+        var y = yPos.value;
+        var imgData = {
+            x: x,
+            y: y,
+            client: id
+        }
+        socket.emit("addToStack", imgData);
+    });
+    
+    receiveUserId(socket);
     // socket.on("updatePara", function(data) {
     //     var node = createNode(data.val);
     //     addNode(node);
@@ -16,6 +34,14 @@ window.addEventListener("load", function() {
 });
 
 
+// allows for the creation of a user ID
+function receiveUserId(socket) {
+    socket.on("getUniqueId", function(data) {
+       id = data.id;
+       DrawingCanvas.initialize(id);
+       console.log(id); 
+    });
+}
 // setInterval(incrementCount, 3000);
 
     

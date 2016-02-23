@@ -1,26 +1,27 @@
 var socketio = require('socket.io');
 var io = socketio();
+var uuid = require("node-uuid");
 
 var count = 0;
 
 
-/**
- * This function handles an increment event on the socket
- */
-function onIncrement(socket) {
-    socket.on("incrementCount", function(data) {
-        count++;
-        io.sockets.in("room1").emit("updatePara", { val: count });
-    });
+// generate a unique client id and send it to the client
+function generateClientId(socket) {
+    socket.on("requestId", function() {     
+        var clientId = uuid.v4();
+        socket.emit("getUniqueId", {
+            id: clientId,
+        });
+    })
 }
-
 
 /**
  * This function handles the initialization of the socket.io connection
  */
 io.sockets.on("connection", function(socket) {
     socket.join("room1");
-    onIncrement(socket);
+    generateClientId(socket);
+    //onIncrement(socket);
     
 });
 
