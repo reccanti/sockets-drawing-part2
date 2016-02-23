@@ -24,6 +24,7 @@ window.addEventListener("load", function() {
     });
     
     receiveUserId(socket);
+    drawOnCanvas(socket);
     // socket.on("updatePara", function(data) {
     //     var node = createNode(data.val);
     //     addNode(node);
@@ -39,7 +40,14 @@ function receiveUserId(socket) {
     socket.on("getUniqueId", function(data) {
        id = data.id;
        DrawingCanvas.initialize(id);
-       console.log(id); 
+    });
+}
+
+// draw to the canvas
+function drawOnCanvas(socket) {
+    socket.on("draw", function(data) {
+        console.log("drawing");
+        DrawingCanvas.setDrawStack(data.images);
     });
 }
 // setInterval(incrementCount, 3000);

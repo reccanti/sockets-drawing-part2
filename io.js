@@ -2,6 +2,8 @@ var socketio = require('socket.io');
 var io = socketio();
 var uuid = require("node-uuid");
 
+var drawStack = [];
+
 var count = 0;
 
 
@@ -12,8 +14,22 @@ function generateClientId(socket) {
         socket.emit("getUniqueId", {
             id: clientId,
         });
-    })
+        socket.emit("draw", {
+            images: drawStack,
+        });
+    });
 }
+
+// adds an image to the draw stack
+function addToDrawStack(socket) {
+    socket.on("addToStack", function(data) {
+        drawStack.push(data);
+        io.sockets.in("room1").emit("draw", {
+            images: drawStack,
+        });
+    });  
+}
+
 
 /**
  * This function handles the initialization of the socket.io connection
@@ -21,6 +37,7 @@ function generateClientId(socket) {
 io.sockets.on("connection", function(socket) {
     socket.join("room1");
     generateClientId(socket);
+    addToDrawStack(socket);
     //onIncrement(socket);
     
 });

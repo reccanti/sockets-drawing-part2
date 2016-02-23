@@ -2,7 +2,6 @@ var DrawingCanvas = (function() {
    var canvas;
    var ctx; 
    
-   var drawStack = [];
    var clientId;
    var yeStare;
    var yeLook;
@@ -26,13 +25,6 @@ var DrawingCanvas = (function() {
    }
    
    
-   // add an image to the draw stack
-   function addToStack(img) {
-       drawStack.push(img);
-       drawStack.sort(compareTimestamp);
-   }
-   
-   
    // draw the stack to the canvas
    function draw() {
        requestAnimationFrame(draw);
@@ -47,7 +39,9 @@ var DrawingCanvas = (function() {
        }
    }
    
-   
+   function setDrawStack(stack) {
+       drawStack = stack;
+   }
    // compare to objects by their timestamp
    function compareTimestamp(a, b) {
        if (a.timestamp < b.timestamp) {
@@ -63,6 +57,6 @@ var DrawingCanvas = (function() {
    
    return {
        initialize: initialize,
-       addToStack: addToStack,
+       setDrawStack: setDrawStack,
    }
 })();
