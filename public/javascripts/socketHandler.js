@@ -3,8 +3,6 @@ var countField;
 var id;
 
 window.addEventListener("load", function() {
-    // DrawingCanvas.initialize(1);
-    // DrawingCanvas.addToStack(imgData);
     countField = document.getElementById("count");
     socket = io.connect(); 
     socket.emit("requestId", {});
@@ -18,20 +16,14 @@ window.addEventListener("load", function() {
         var imgData = {
             x: x,
             y: y,
-            client: id
+            client: id,
+            timestamp: moment().format()
         }
         socket.emit("addToStack", imgData);
     });
     
     receiveUserId(socket);
     drawOnCanvas(socket);
-    // socket.on("updatePara", function(data) {
-    //     var node = createNode(data.val);
-    //     addNode(node);
-    //     setTimeout(function() {
-    //         removeNode(node);
-    //     }, 1500);
-    // });
 });
 
 
@@ -50,6 +42,7 @@ function drawOnCanvas(socket) {
         DrawingCanvas.setDrawStack(data.images);
     });
 }
+
 // setInterval(incrementCount, 3000);
 
     
